@@ -1,5 +1,6 @@
 import sys
 import time
+import traceback
 
 from config import scraper_config, influx_config
 from scraper.targets.arris_modem import ArrisModem
@@ -32,7 +33,7 @@ def run_scraper():
         except:
             outputter.reset()
             retries += 1
-            print("Error:", sys.exc_info())
+            traceback.print_exc()
 
     time.sleep(scraper_config['poll_interval_seconds'])
 
