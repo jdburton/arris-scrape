@@ -17,7 +17,7 @@ def run_scraper():
     print("Modem scraper running.")
 
     target = ArrisModem()
-    outputter = InfluxDBOutputter(influx_config)
+    # outputter = InfluxDBOutputter(influx_config)
     downloader = RequestsDownloader()
 
     retries = 0
@@ -25,13 +25,15 @@ def run_scraper():
         try:
             body = downloader.download(MODEM_URL)
             items = target.extract_items_from_html(body)
-            outputter.output(items)
+            for item in items:
+                print(item)
+            # outputter.output(items)
 
             retries = 0
         except KeyboardInterrupt:
             sys.exit()
         except:
-            outputter.reset()
+            # outputter.reset()
             retries += 1
             traceback.print_exc()
 
